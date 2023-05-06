@@ -10,6 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mpr121": "https://github.com/traumverloren/node_mpr121.git"
+    "dotenv": "^16.0.3",
+    "mpr121": "https://github.com/traumverloren/node_mpr121.git",
+    "mqtt": "^4.3.7",
+    "wavefile": "^11.0.0"
   }
 }
