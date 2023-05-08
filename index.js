@@ -2,7 +2,6 @@ require("dotenv").config();
 const mqtt = require('mqtt')
 const fs = require("fs");
 const spawn = require("child_process").spawn;
-let voiceFile = `${new Date().getTime()}.wav`; // generating the music file name
 const MPR121 = require("mpr121");
 const mpr121 = new MPR121(0x5a, 1);
 const WaveFile = require('wavefile').WaveFile;
@@ -51,16 +50,16 @@ mpr121.on(5, (state) => {
   } else {
     if (childRecord) {
       stopRecording();
-      sendFile();
     }
   }
 });
 
 // arecord -D plughw:0 -c1 -r 48000 -f S32_LE -t wav -V mono -v file.wav
 const startRecording = () => {
+  const voiceFile = `${new Date().getTime()}.wav`; // generating the music file name
   childRecord = spawn("arecord", [
     "-D",
-    "plughw:0",
+    "plughw:1",
     "-c1",
     "-r",
     "48000",
@@ -77,13 +76,14 @@ const startRecording = () => {
   childRecord.on("exit", function (code, sig) {
     if (code !== null && sig === null) {
       console.log("done recording");
+      playFile(voiceFile);
     }
   });
   childRecord.stderr.on("data", function (data) {
     console.log("music record stderr :" + data);
   });
   childRecord.stdout.on("data", function (data) {
-    console.log(" music record stdout data: " + data);
+    console.log("music record stdout data: " + data);
   });
 };
 
@@ -92,16 +92,24 @@ const playFile = (file) => {
   childPlay.on("exit", function (code, sig) {
     if (code !== null && sig === null) {
       console.log("done playing");
-    }
+      deleteFile(file);
+  }
   });
   childPlay.stderr.on("data", function (data) {
     console.log("music record stderr :" + data);
   });
 };
 
-const stopRecording = () => {
-  console.log("stopped recording")
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+const stopRecording = async() => {
+  await sleep(2000);
+  console.log("stopped recording");
   childRecord.kill("SIGTERM");
+//  sendFile();
+//  playFile(voiceFile);
 };
 
 const sendFile = () => {
@@ -109,19 +117,13 @@ const sendFile = () => {
   client.publish("steph-message", recordedBuffer);
 };
 
-const getAsByteArray = (file) => {
-  console.log("creating file")
-  const buffer = fs.readFileSync(file);
-  return new Uint8Array(buffer);
-};
-
-
 const createWavFile = (bufferMsg) => {
   fs.writeFileSync('receivedFile.wav', bufferMsg);
 }
 
 // To delete file:
-const deleteFile = (path) => {
+const deleteFile = async (path) => {
+  await sleep(2000);
   fs.unlink(path, (err) => {
     if (err) throw err; //handle your error the way you want to;
     console.log("path/file.txt was deleted"); //or else the file will be deleted
