@@ -105,7 +105,7 @@ function sleep(ms) {
 }
 
 const stopRecording = async() => {
-  await sleep(2000);
+  await sleep(1000);
   console.log("stopped recording");
   childRecord.kill("SIGTERM");
 //  sendFile();
