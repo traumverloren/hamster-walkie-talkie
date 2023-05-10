@@ -1,11 +1,11 @@
 require("dotenv").config();
-const mqtt = require('mqtt')
+const mqtt = require("mqtt");
 const fs = require("fs");
 const spawn = require("child_process").spawn;
 const MPR121 = require("mpr121");
 const mpr121 = new MPR121(0x5a, 1);
-const WaveFile = require('wavefile').WaveFile;
-const receivedFile = 'receivedFile.wav';
+const WaveFile = require("wavefile").WaveFile;
+const receivedFile = "receivedFile.wav";
 let childRecord;
 let childPlay;
 
@@ -88,12 +88,12 @@ const startRecording = () => {
 };
 
 const playFile = (file) => {
-  childPlay = spawn('aplay', [`${file}`]);
+  childPlay = spawn("aplay", [`${file}`]);
   childPlay.on("exit", function (code, sig) {
     if (code !== null && sig === null) {
       console.log("done playing");
       deleteFile(file);
-  }
+    }
   });
   childPlay.stderr.on("data", function (data) {
     console.log("music record stderr :" + data);
@@ -101,15 +101,15 @@ const playFile = (file) => {
 };
 
 function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-const stopRecording = async() => {
+const stopRecording = async () => {
   await sleep(1000);
   console.log("stopped recording");
   childRecord.kill("SIGTERM");
-//  sendFile();
-//  playFile(voiceFile);
+  //  sendFile();
+  //  playFile(voiceFile);
 };
 
 const sendFile = () => {
@@ -118,8 +118,8 @@ const sendFile = () => {
 };
 
 const createWavFile = (bufferMsg) => {
-  fs.writeFileSync('receivedFile.wav', bufferMsg);
-}
+  fs.writeFileSync("receivedFile.wav", bufferMsg);
+};
 
 // To delete file:
 const deleteFile = async (path) => {
