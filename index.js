@@ -87,12 +87,11 @@ const startRecording = () => {
   });
 };
 
-const playFile = async (file) => {
+const playFile = (file) => {
   childPlay = spawn("aplay", [`${file}`]);
   childPlay.on("exit", function (code, sig) {
     if (code !== null && sig === null) {
       console.log("done playing");
-      await sleep(2000);
       deleteFile(file);
     }
   });
@@ -123,7 +122,8 @@ const createWavFile = (bufferMsg) => {
 };
 
 // To delete file:
-const deleteFile = (path) => {
+const deleteFile = async (path) => {
+  await sleep(2000);
   fs.unlink(path, (err) => {
     if (err) throw err; //handle your error the way you want to;
     console.log(`${path} was deleted`); //or else the file will be deleted
