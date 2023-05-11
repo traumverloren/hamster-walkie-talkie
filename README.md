@@ -6,10 +6,11 @@ Setup pi zero w:
 - install git
 - install nvm
 - install node arm (https://gist.github.com/traumverloren/7b1140e6c438988df755d047e1e98a7b)
-- enable i2c (sudo rasps-config)
-- install i2c mems mic (https://learn.adafruit.com/adafruit-i2s-mems-microphone-breakout/raspberry-pi-wiring-test)
+- enable i2s (sudo raspsi-config)
+- install i2s mems mic (https://learn.adafruit.com/adafruit-i2s-mems-microphone-breakout/raspberry-pi-wiring-test)
 - check working: `arecord -l`
-- sudo apt-get install i2c-tools
+- enable autoloading of i2c: https://learn.adafruit.com/adafruits-raspberry-pi-lesson-4-gpio-setup/configuring-i2c#installing-kernel-support-with-raspi-config-5-4
+- `sudo apt-get install i2c-tools`
 - check i2c working: `i2cdetect -y 1`
 - setup i2s audio output over pwm pins:
   - `sudo nano /boot/config.txt`

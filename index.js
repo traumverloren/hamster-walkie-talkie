@@ -22,8 +22,8 @@ const client = mqtt.connect(process.env.MQTT_HOST, {
 // MQTT pub/sub
 // prints a received message
 client.on("message", function (topic, payload) {
-  if (topic === "steph-message") {
-    console.log("steph-message received");
+  if (topic === process.env.TOPIC_SUB) {
+    console.log(`${process.env.TOPIC_SUB} received`);
     createWavFile(payload);
     playFile(receivedFile);
   }
@@ -87,11 +87,12 @@ const startRecording = () => {
   });
 };
 
-const playFile = (file) => {
+const playFile = async (file) => {
   childPlay = spawn("aplay", [`${file}`]);
   childPlay.on("exit", function (code, sig) {
     if (code !== null && sig === null) {
       console.log("done playing");
+      await sleep(2000);
       deleteFile(file);
     }
   });
@@ -122,10 +123,9 @@ const createWavFile = (bufferMsg) => {
 };
 
 // To delete file:
-const deleteFile = async (path) => {
-  await sleep(2000);
+const deleteFile = (path) => {
   fs.unlink(path, (err) => {
     if (err) throw err; //handle your error the way you want to;
-    console.log("path/file.txt was deleted"); //or else the file will be deleted
+    console.log(`${path} was deleted`); //or else the file will be deleted
   });
 };
