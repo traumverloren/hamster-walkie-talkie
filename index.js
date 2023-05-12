@@ -5,7 +5,6 @@ const spawn = require("child_process").spawn;
 const MPR121 = require("mpr121");
 const mpr121 = new MPR121(0x5a, 1);
 const WaveFile = require("wavefile").WaveFile;
-const receivedFile = "receivedFile.wav";
 let childRecord;
 let childPlay;
 
@@ -25,7 +24,7 @@ client.on("message", function (topic, payload) {
   console.log(`${topic} received`);
   if (topic === process.env.TOPIC_SUB) {
     console.log(`${process.env.TOPIC_SUB} received`);
-    createWavFile(payload);
+    const receivedFile = createWavFile(payload);
     playFile(receivedFile);
   }
 });
@@ -92,7 +91,7 @@ const playFile = (file) => {
   childPlay.on("exit", function (code, sig) {
     if (code !== null && sig === null) {
       console.log("done playing");
-      deleteFile(file);
+      // deleteFile(file);
     }
   });
   childPlay.stderr.on("data", function (data) {
@@ -117,7 +116,8 @@ const sendFile = () => {
 };
 
 const createWavFile = (bufferMsg) => {
-  fs.writeFileSync("receivedFile.wav", bufferMsg);
+  const receivedFile = `receivedFile-${new Date().getTime()}.wav`; // generating the music file name
+  fs.writeFileSync(receivedFile, bufferMsg);
 };
 
 // To delete file:
