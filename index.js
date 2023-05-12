@@ -22,6 +22,7 @@ const client = mqtt.connect(process.env.MQTT_HOST, {
 // MQTT pub/sub
 // prints a received message
 client.on("message", function (topic, payload) {
+  console.log(`${topic} received`);
   if (topic === process.env.TOPIC_SUB) {
     console.log(`${process.env.TOPIC_SUB} received`);
     createWavFile(payload);
@@ -40,7 +41,7 @@ client.on("error", (error) => {
 });
 
 // subscribe and publish to the same topic
-client.subscribe(process.env.TOPIC);
+client.subscribe(process.env.TOPIC_SUB);
 
 // listen for pin 5 events
 mpr121.on(5, (state) => {
