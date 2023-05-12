@@ -24,8 +24,7 @@ client.on("message", function (topic, payload) {
   console.log(`${topic} received`);
   if (topic === process.env.TOPIC_SUB) {
     console.log(`${process.env.TOPIC_SUB} received`);
-    const receivedFile = createWavFile(payload);
-    playFile(receivedFile);
+    playFile(payload);
   }
 });
 
@@ -87,12 +86,13 @@ const startRecording = () => {
   });
 };
 
-const playFile = (file) => {
+const playFile = async (payload) => {
+  const file = await createWavFile(payload);
   childPlay = spawn("aplay", [`${file}`]);
   childPlay.on("exit", function (code, sig) {
     if (code !== null && sig === null) {
       console.log("done playing");
-      // deleteFile(file);
+      deleteFile(file);
     }
   });
   childPlay.stderr.on("data", function (data) {
@@ -115,10 +115,11 @@ const sendFile = (voiceFile) => {
   client.publish(process.env.TOPIC, recordedBuffer);
 };
 
-const createWavFile = (bufferMsg) => {
+const createWavFile = async (bufferMsg) => {
   let receivedFile = `receivedFile-${new Date().getTime()}.wav`; // generating the music file name
-  receivedFile = fs.writeFileSync(receivedFile, bufferMsg);
-  return receivedFile;};
+  await fs.promises.writeFile(receivedFile, bufferMsg);
+  return receivedFile;
+};
 
 // To delete file:
 const deleteFile = async (path) => {
