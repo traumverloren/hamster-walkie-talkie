@@ -1,5 +1,5 @@
 require("dotenv").config();
-const setTimeout = require('timers/promises').setTimeout;
+const setTimeout = require("timers/promises").setTimeout;
 const mqtt = require("mqtt");
 const fs = require("fs");
 const spawn = require("child_process").spawn;
@@ -99,7 +99,6 @@ const playFile = async (payload) => {
     console.log("music record stderr :" + data);
   });
 };
-
 
 const stopRecording = async () => {
   await setTimeout(1500);
