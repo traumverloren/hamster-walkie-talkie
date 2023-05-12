@@ -1,4 +1,5 @@
 require("dotenv").config();
+const setTimeout = require('timers/promises').setTimeout;
 const mqtt = require("mqtt");
 const fs = require("fs");
 const spawn = require("child_process").spawn;
@@ -21,7 +22,6 @@ const client = mqtt.connect(process.env.MQTT_HOST, {
 // MQTT pub/sub
 // prints a received message
 client.on("message", function (topic, payload) {
-  console.log(`${topic} received`);
   if (topic === process.env.TOPIC_SUB) {
     console.log(`${process.env.TOPIC_SUB} received`);
     playFile(payload);
@@ -100,12 +100,9 @@ const playFile = async (payload) => {
   });
 };
 
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
 const stopRecording = async () => {
-  await sleep(1000);
+  await setTimeout(1500);
   console.log("stopped recording");
   childRecord.kill("SIGTERM");
 };
@@ -123,7 +120,7 @@ const createWavFile = async (bufferMsg) => {
 
 // To delete file:
 const deleteFile = async (path) => {
-  await sleep(2000);
+  await setTimeout(2000);
   fs.unlink(path, (err) => {
     if (err) throw err; //handle your error the way you want to;
     console.log(`${path} was deleted`); //or else the file will be deleted
