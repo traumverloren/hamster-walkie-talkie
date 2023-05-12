@@ -76,6 +76,7 @@ const startRecording = () => {
   childRecord.on("exit", function (code, sig) {
     if (code !== null && sig === null) {
       console.log("done recording");
+      sendFile(voiceFile);
     }
   });
   childRecord.stderr.on("data", function (data) {
@@ -107,18 +108,17 @@ const stopRecording = async () => {
   await sleep(1000);
   console.log("stopped recording");
   childRecord.kill("SIGTERM");
-  sendFile();
 };
 
-const sendFile = () => {
+const sendFile = (voiceFile) => {
   const recordedBuffer = new WaveFile(fs.readFileSync(voiceFile)).toBuffer();
   client.publish(process.env.TOPIC, recordedBuffer);
 };
 
 const createWavFile = (bufferMsg) => {
-  const receivedFile = `receivedFile-${new Date().getTime()}.wav`; // generating the music file name
-  fs.writeFileSync(receivedFile, bufferMsg);
-};
+  let receivedFile = `receivedFile-${new Date().getTime()}.wav`; // generating the music file name
+  receivedFile = fs.writeFileSync(receivedFile, bufferMsg);
+  return receivedFile;};
 
 // To delete file:
 const deleteFile = async (path) => {
