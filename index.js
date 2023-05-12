@@ -76,7 +76,6 @@ const startRecording = () => {
   childRecord.on("exit", function (code, sig) {
     if (code !== null && sig === null) {
       console.log("done recording");
-      playFile(voiceFile);
     }
   });
   childRecord.stderr.on("data", function (data) {
@@ -108,13 +107,12 @@ const stopRecording = async () => {
   await sleep(1000);
   console.log("stopped recording");
   childRecord.kill("SIGTERM");
-  //  sendFile();
-  //  playFile(voiceFile);
+  sendFile();
 };
 
 const sendFile = () => {
   const recordedBuffer = new WaveFile(fs.readFileSync(voiceFile)).toBuffer();
-  client.publish("steph-message", recordedBuffer);
+  client.publish(process.env.TOPIC, recordedBuffer);
 };
 
 const createWavFile = (bufferMsg) => {
