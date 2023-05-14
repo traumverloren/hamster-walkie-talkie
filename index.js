@@ -11,11 +11,14 @@ let childRecord;
 let childPlay;
 
 const inLocalMode = true;
+let isRecording = false;
+
+const brightness = 120;
 
 // colors are GRB!
 const options = {
   gpio: 10,
-  brightness: 120,
+  brightness: brightness,
   stripType: ws281x.stripType.SK6812W,
 };
 
@@ -66,10 +69,10 @@ client.subscribe(process.env.TOPIC_SUB);
 // listen for pin 5 events
 mpr121.on(5, (state) => {
   console.log(`pin 5: ${state}`);
-  if (state) {
+  if (state && !isRecording) {
     startRecording();
   } else {
-    if (childRecord) {
+    if (childRecord && isRecording) {
       stopRecording();
     }
   }
@@ -79,6 +82,9 @@ mpr121.on(5, (state) => {
 const startRecording = () => {
   colors[0] = 0x0000ff;
   ws281x.render();
+
+  isRecording = true;
+
   const voiceFile = `${new Date().getTime()}.wav`; // generating the music file name
   childRecord = spawn("arecord", [
     "-D",
@@ -99,6 +105,7 @@ const startRecording = () => {
   childRecord.on("exit", function (code, sig) {
     if (code !== null && sig === null) {
       console.log("done recording");
+      isRecording = false;
       inLocalMode ? playFile(voiceFile) : sendFile(voiceFile);
     }
   });
@@ -125,9 +132,12 @@ const playFile = async (payload) => {
 };
 
 const stopRecording = async () => {
+  colors[0] = 0x0088ff;
+  ws281x.render();
+  await setTimeout(1000)
   colors[0] = 0x000000;
   ws281x.render();
-  await setTimeout(1500);
+
   console.log("stopped recording");
   childRecord.kill("SIGTERM");
 };
