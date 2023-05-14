@@ -6,8 +6,28 @@ const spawn = require("child_process").spawn;
 const MPR121 = require("mpr121");
 const mpr121 = new MPR121(0x5a, 1);
 const WaveFile = require("wavefile").WaveFile;
+const ws281x = require('rpi-ws281x-native');
 let childRecord;
 let childPlay;
+
+const inLocalMode = true;
+
+// colors are GRB!
+const options = {
+  gpio: 10,
+  brightness: 120,
+  stripType: ws281x.stripType.SK6812W,
+};
+
+const channel = ws281x(1, options);
+const colors = channel.array;
+
+colors[0] = 0x000000;
+ws281x.render();
+
+// update color-values
+colors[0] = 0x00ffff;
+ws281x.render();
 
 console.log("starting...");
 
@@ -24,13 +44,15 @@ const client = mqtt.connect(process.env.MQTT_HOST, {
 client.on("message", function (topic, payload) {
   if (topic === process.env.TOPIC_SUB) {
     console.log(`${process.env.TOPIC_SUB} received`);
-    playFile(payload);
+    if (!inLocalMode) playFile(payload);
   }
 });
 
 // reassurance that the connection worked
 client.on("connect", () => {
   console.log("Connected!");
+  colors[0] = 0x000000;
+  ws281x.render();
 });
 
 // prints an error message
@@ -55,6 +77,8 @@ mpr121.on(5, (state) => {
 
 // arecord -D plughw:0 -c1 -r 48000 -f S32_LE -t wav -V mono -v file.wav
 const startRecording = () => {
+  colors[0] = 0x0000ff;
+  ws281x.render();
   const voiceFile = `${new Date().getTime()}.wav`; // generating the music file name
   childRecord = spawn("arecord", [
     "-D",
@@ -75,7 +99,7 @@ const startRecording = () => {
   childRecord.on("exit", function (code, sig) {
     if (code !== null && sig === null) {
       console.log("done recording");
-      sendFile(voiceFile);
+      inLocalMode ? playFile(voiceFile) : sendFile(voiceFile);
     }
   });
   childRecord.stderr.on("data", function (data) {
@@ -87,7 +111,7 @@ const startRecording = () => {
 };
 
 const playFile = async (payload) => {
-  const file = await createWavFile(payload);
+  const file = inLocalMode ? payload : await createWavFile(payload);
   childPlay = spawn("aplay", [`${file}`]);
   childPlay.on("exit", function (code, sig) {
     if (code !== null && sig === null) {
@@ -101,6 +125,8 @@ const playFile = async (payload) => {
 };
 
 const stopRecording = async () => {
+  colors[0] = 0x000000;
+  ws281x.render();
   await setTimeout(1500);
   console.log("stopped recording");
   childRecord.kill("SIGTERM");

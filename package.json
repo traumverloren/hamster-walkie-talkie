@@ -13,6 +13,7 @@
     "dotenv": "^16.0.3",
     "mpr121": "https://github.com/traumverloren/node_mpr121.git",
     "mqtt": "^4.3.7",
+    "rpi-ws281x-native": "^1.0.4",
     "wavefile": "^11.0.0"
   }
 }
