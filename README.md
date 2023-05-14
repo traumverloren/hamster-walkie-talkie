@@ -29,9 +29,21 @@ Setup pi zero w:
   ```
 
 - update so can run node/npm with sudo (needed for neopixels):
+
   ```shell
   sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/node" "/usr/local/bin/node"
   sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/npm" "/usr/local/bin/npm"
+  ```
+
+- run `npm start`
+- setup pm2:
+  ```shell
+  npm i -g pm2
+  pm2 startup # setup pm2 to run at boot
+  sudo env PATH=$PATH:/home/pi/.nvm/versions/node/v16.20.0/bin /home/pi/.nvm/versions/node/v16.20.0/lib/node_modules/pm2/bin/pm2 startup systemd -u pi --hp /home/pi
+  pm2 start npm --name "YOURNAMEHERE" -- start
+  pm2 save
+  pm2 logs
   ```
 
 Useful links:
