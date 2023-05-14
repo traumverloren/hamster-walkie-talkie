@@ -40,7 +40,7 @@ Setup pi zero w:
   ```shell
   npm i -g pm2
   pm2 startup # setup pm2 to run at boot
-  sudo env PATH=$PATH:/home/pi/.nvm/versions/node/v16.20.0/bin /home/pi/.nvm/versions/node/v16.20.0/lib/node_modules/pm2/bin/pm2 startup systemd -u pi --hp /home/pi
+  sudo env PATH=$PATH:/home/pi/.nvm/versions/node/v18.16.0/bin /home/pi/.nvm/versions/node/v18.16.0/lib/node_modules/pm2/bin/pm2 startup systemd -u pi --hp /home/pi # run command returned from above
   pm2 start npm --name "YOURNAMEHERE" -- start
   pm2 save
   pm2 logs
