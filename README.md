@@ -21,7 +21,7 @@ Setup pi zero w:
 - git clone this repo
 - add .env w/ secrets
 - npm i
-- add ``to`/boot/config.txt` for neopixels
+- add the following to`/boot/config.txt` for neopixels to work properly:
 
   ```shell
   # Fix for running neopixels on SPI (GPIO 10)
