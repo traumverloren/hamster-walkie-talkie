@@ -6,7 +6,7 @@ Setup pi zero w:
 - install git
 - install nvm
 - install node arm (https://gist.github.com/traumverloren/7b1140e6c438988df755d047e1e98a7b)
-- enable i2s (sudo raspsi-config)
+- enable i2s & spi in `sudo raspi-config` (Interface options menu)
 - install i2s mems mic (https://learn.adafruit.com/adafruit-i2s-mems-microphone-breakout/raspberry-pi-wiring-test)
 - check working: `arecord -l`
 - enable autoloading of i2c: https://learn.adafruit.com/adafruits-raspberry-pi-lesson-4-gpio-setup/configuring-i2c#installing-kernel-support-with-raspi-config-5-4
@@ -15,11 +15,24 @@ Setup pi zero w:
 - setup i2s audio output over pwm pins:
   - `sudo nano /boot/config.txt`
   - add: `dtoverlay=audremap, pins_12_13`
-  - `sudo reboot`
+  - then `sudo reboot now`
   - check working: `aplay -l`
+  - if necessary, update to use audio over headphones in `sudo raspi-config`
 - git clone this repo
 - add .env w/ secrets
 - npm i
+- add ``to`/boot/config.txt` for neopixels
+
+  ```shell
+  # Fix for running neopixels on SPI (GPIO 10)
+  core_freq=250
+  ```
+
+- update so can run node/npm with sudo (needed for neopixels):
+  ```shell
+  sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/node" "/usr/local/bin/node"
+  sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/npm" "/usr/local/bin/npm"
+  ```
 
 Useful links:
 
