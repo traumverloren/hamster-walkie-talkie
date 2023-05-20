@@ -10,7 +10,7 @@ const ws281x = require('rpi-ws281x-native');
 let childRecord;
 let childPlay;
 
-const inLocalMode = true;
+const inLocalMode = false;
 let isRecording = false;
 let isPlaying = false;
 const brightness = 120;
