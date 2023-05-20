@@ -15,7 +15,7 @@ let isRecording = false;
 let isPlaying = false;
 const brightness = 120;
 
-// colors are GRB!
+// colors are BGR!
 const options = {
   gpio: 10,
   brightness: brightness,
@@ -69,16 +69,14 @@ mpr121.on(5, (state) => {
   console.log(`pin 5: ${state}`);
   if (state && !isRecording &&!isPlaying) {
     startRecording();
-  } else {
-    if (childRecord && isRecording && !isPlaying) {
-      stopRecording();
-    }
+  } else if (!state && childRecord && isRecording && !isPlaying) {
+    stopRecording();
   }
 });
 
 // arecord -D plughw:0 -c1 -r 48000 -f S32_LE -t wav -V mono -v file.wav
 const startRecording = () => {
-  colors[0] = 0x0000ff;
+  colors[0] = 0x00ff00;
   ws281x.render();
 
   isRecording = true;
