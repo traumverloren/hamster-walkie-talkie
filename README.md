@@ -2,6 +2,10 @@
 
 Make a pair (or army) of ridiculous toy hamsters that can send/receive voice messages from anywhere in the world using MQTT. Touch his hand and record and send a message to other hamsters.
 
+These hamsters are running the hardware using _only_ 100% Javascript and I think that's useless and also super cool. 😎 
+
+They recognize touch, turn on a mic, send your voice in a Buffer as array of bytes over MQTT to another hamster many many miles away from you all in *JavaScript* only!
+
 Be prepared to debug hamsters!
 
 ![hamster-diagram](https://github.com/traumverloren/hamster-walkie-talkie/assets/9959680/cb510b99-b6fe-473c-b431-5e8818b493fc)
