@@ -1,6 +1,48 @@
-### Hamster walkie talkies
+# Hamster walkie talkies
 
-Setup pi zero w:
+Make a pair (or army) of ridiculous toy hamsters that can send/receive voice messages from anywhere in the world using MQTT. Be prepared to debug hamsters!
+
+![hamster-diagram](https://github.com/traumverloren/hamster-walkie-talkie/assets/9959680/cb510b99-b6fe-473c-b431-5e8818b493fc)
+
+![](https://github.com/traumverloren/hamster-walkie-talkie/assets/9959680/27419332-ba33-4313-934f-5c0328e1228f)
+
+
+## Materials:
+- Raspberry Pi Zero W
+- Talking hamster ([amazon](https://amzn.eu/d/eBBaJ0Z)) - note this specific hamster has the hackable board w/o integrated piezo mic!
+- Adafruit I2S MEMS microphone
+- Adafruit MPR121 Capacitive touch breakout
+- Adafruit NeoPixel
+- 270Ω Resistor
+- 150Ω Resistor
+- 2.2kΩ Resistor
+- 100Ω Resistor
+- 2 x 10µF electrolytic capacitor
+- 33nF ceramic capacitor
+- Proto board
+- Shrink tubing
+- Heat glue gun
+- Soldering iron
+- Heat gun (optional)
+- wiring
+- stemma QT to male connector
+- male jumper cables (to connec to headers on pi)
+
+## Setup hamster:
+- Assemble circuitry as shown above.
+- Remove hamster skin by cutting ziptie at bottom.
+- Insert circuit into hamster and file plastic case
+
+![IMG_4852 Medium](https://github.com/traumverloren/hamster-walkie-talkie/assets/9959680/1ceb649a-0f48-425f-839c-f4df827385a3)
+
+![EC1CAC29-6966-414C-A06B-5220EEAE1530 Medium](https://github.com/traumverloren/hamster-walkie-talkie/assets/9959680/0669f682-d379-4b13-b47c-bf56706bc798)
+
+![IMG_4842 Medium](https://github.com/traumverloren/hamster-walkie-talkie/assets/9959680/6dd87338-6936-43e8-a13d-650c75d46ebb)
+
+![0A381C62-839B-45C0-91DE-566B17489EF3 2 Medium](https://github.com/traumverloren/hamster-walkie-talkie/assets/9959680/d5fe9743-1867-4313-a5ff-eec1bea3343e)
+
+
+## Setup pi zero w:
 
 - format sd card - pi formatter
 - install git
