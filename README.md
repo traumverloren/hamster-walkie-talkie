@@ -6,7 +6,9 @@ Be prepared to debug hamsters!
 
 ![hamster-diagram](https://github.com/traumverloren/hamster-walkie-talkie/assets/9959680/cb510b99-b6fe-473c-b431-5e8818b493fc)
 
-![](https://github.com/traumverloren/hamster-walkie-talkie/assets/9959680/27419332-ba33-4313-934f-5c0328e1228f)
+| Proof of concept | Debugging |
+| ------------- | ------------- |
+| <video src="https://github.com/traumverloren/hamster-walkie-talkie/assets/9959680/c0ef765f-ef5b-4bef-a917-29b25162303e" /> | <video src="https://github.com/traumverloren/hamster-walkie-talkie/assets/9959680/2cb3c869-538c-4a12-9d18-d530f328e270" /> |
 
 
 ## Materials:
