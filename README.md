@@ -1,6 +1,8 @@
 # Hamster walkie talkies
 
-Make a pair (or army) of ridiculous toy hamsters that can send/receive voice messages from anywhere in the world using MQTT. Be prepared to debug hamsters!
+Make a pair (or army) of ridiculous toy hamsters that can send/receive voice messages from anywhere in the world using MQTT. Touch his hand and record and send a message to other hamsters.
+
+Be prepared to debug hamsters!
 
 ![hamster-diagram](https://github.com/traumverloren/hamster-walkie-talkie/assets/9959680/cb510b99-b6fe-473c-b431-5e8818b493fc)
 
@@ -10,9 +12,9 @@ Make a pair (or army) of ridiculous toy hamsters that can send/receive voice mes
 ## Materials:
 - Raspberry Pi Zero W
 - Talking hamster ([amazon](https://amzn.eu/d/eBBaJ0Z)) - note this specific hamster has the hackable board w/o integrated piezo mic!
-- Adafruit I2S MEMS microphone
-- Adafruit MPR121 Capacitive touch breakout
-- Adafruit NeoPixel
+- [Adafruit I2S MEMS microphone](https://learn.adafruit.com/adafruit-i2s-mems-microphone-breakout/raspberry-pi-wiring-test)
+- [Adafruit MPR121 Capacitive touch breakout](https://www.adafruit.com/product/4830)
+- [Adafruit NeoPixel PCB button](https://www.adafruit.com/product/4776)
 - 270Ω Resistor
 - 150Ω Resistor
 - 2.2kΩ Resistor
@@ -23,12 +25,14 @@ Make a pair (or army) of ridiculous toy hamsters that can send/receive voice mes
 - Shrink tubing
 - Heat glue gun
 - Soldering iron
+- conductive thread
 - Heat gun (optional)
 - wiring
-- stemma QT to male connector
-- male jumper cables (to connec to headers on pi)
+- [stemma QT to male connector](https://www.adafruit.com/product/4209)
+- male jumper cables (to connect things to the headers on pi)
 
 ## Setup hamster:
+- Stitch a conductive thread area on his hand to trigger recording and sending a message!
 - Assemble circuitry as shown above.
 - Remove hamster skin by cutting ziptie at bottom.
 - Insert circuit into hamster and file plastic case
